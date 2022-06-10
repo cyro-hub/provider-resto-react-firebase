@@ -1,13 +1,12 @@
 import {useSelector} from 'react-redux';
 import '../css/checkout.scss'
-// import * as actions from '../../redux/actions/contactActions'
+import * as contactActions from '../redux/actions/contact'
 
 function CheckContact() {
-  // const contacts = useSelector(state=>state.contact.contacts);
-  const contacts = []
+  const contacts = useSelector(state=>state.contact.contacts);
   
   function handleRemoveContactMessage(id){
-    // actions.removeFromContactMessage(id)
+    contactActions.removeContact(id)
   }
 
   return (<section className='main'>
@@ -25,14 +24,14 @@ function CheckContact() {
       </thead>
       <tbody className='scroll'>
         {
-          contacts?.map(message=><tr key={message.contactID}>
+          contacts?.map(message=><tr key={message.id}>
             <td>{message.contactDate}</td>
             <td>{message.name}</td>
             <td className='action'>{message.region}</td>
             <td>{message.town}</td>
             <td>{message.message}</td>
             <td className='action'>
-              <button onClick={()=>handleRemoveContactMessage(message.contactID)} className='btn_remove'>remove</button>
+              <button onClick={()=>handleRemoveContactMessage(message.id)} className='btn_remove'>remove</button>
             </td>
           </tr>)
         }

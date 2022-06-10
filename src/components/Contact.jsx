@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from 'react';
 import { useSelector } from 'react-redux';
 import {regions} from '../data'
-// import * as contactActions from '../redux/actions/contactActions'
+import * as contactActions from '../redux/actions/contact'
 import * as locationActions from '../redux/actions/location'
 import '../css/form.scss'
 
@@ -10,7 +10,8 @@ const [contact,setContact]=useState({
     name:'',
     region:'',
     town:'',
-    message:''
+    message:'',
+    contactDate:(new Date()).toUTCString()
 });
 const towns = useSelector(state=>state.location.towns);
 
@@ -30,7 +31,7 @@ const handleSubmit=(e)=>{
         setWarning('Either the name,Region,Town,Message field is empty')
         return
     }
-    // contactActions.addContact(contact);
+    contactActions.addContact(contact);
     setContact({
         name:'',
         region:'',

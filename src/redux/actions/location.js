@@ -42,6 +42,5 @@ export const addLocation =async(location)=>{
 }
 
 export const removeLocation=async(id)=>{
-    const dle = await deleteDoc(doc(references,id))
-console.log(dle);
+    await deleteDoc(doc(references,id))
 }

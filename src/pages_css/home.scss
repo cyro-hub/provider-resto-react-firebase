@@ -5,7 +5,7 @@ $bg-secondary:rgba(0, 3, 14, 0.5);
 
 $media-desktop: "only screen and (min-width : 1024px)";
 $media-tablet: "only screen and (min-width : 768px)";
-$media-mobile: "only screen and (min-width : 600px)";
+$media-mobile: "only screen and (max-width : 700px)";
 $media-mobile-sm: "only screen and (min-width : 480px)";
 
 .welcome{
@@ -35,21 +35,33 @@ $media-mobile-sm: "only screen and (min-width : 480px)";
     .section{
         width: 100%;
         margin: 1rem auto;
-        background-color: $bg-secondary;
     }
 }
 
 .about{
-background-color: $bg-secondary;
+
+div{
+display: flex;
+align-items: center;
+justify-content: center;
+    img{
+        flex: 1;
+        object-fit: cover;
+        object-position: 20% 10%;
+    }
     p{
         padding: 1rem 2rem;
         color: $secondary_color;
+        flex: 0.75;
+        h3{
+            margin: 2rem auto;
+            color:$primary_color;
+        }
     }
+}
 }
 
 .services,.faq,.contact,.footer{
-    background-color: $bg-secondary;
-
     ul{
         margin: 1rem;
         color: $secondary_color;
@@ -68,3 +80,10 @@ background-color: $bg-secondary;
       }
     }
   }
+@media #{$media-mobile}{
+    .about{
+        div{
+            display: block;
+        }
+    }
+}

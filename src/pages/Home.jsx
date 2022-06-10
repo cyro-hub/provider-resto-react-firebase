@@ -8,11 +8,12 @@ import '../pages_css/home.scss'
 import {useSelector} from 'react-redux'
 import Contact from '../components/Contact';
 import {AiFillLinkedin,AiFillFacebook} from 'react-icons/ai'
+import owner from '../images/owner.png'
 
 function Home() {
 const [size,setSize]=useState(window.innerWidth);
 const recipes = useSelector(state=>state.recipe.recipes);
-const popular = useSelector(state=>state.recipe.popular);
+const popular = useSelector(state=>state.recipe.popularRecipes);
 
 const checkSize=()=>{
   setSize(window.innerWidth);
@@ -39,9 +40,9 @@ useEffect(()=>{
                             perPage:size<400?1:size<700?2:size<1024?3:4,
                             gap:'2rem',
                             pagination:false,
-                            arrows:false,
+                            arrows:true,
                             drag:'free'}} >
-        {popular?.map((image) =><SplideSlide key={image.recipeID}><SlideCard image={image}/></SplideSlide>)}
+        {popular?.map((image) =><SplideSlide key={image.id}><SlideCard image={image}/></SplideSlide>)}
         </Splide>
         </div>
         <h3 className='section-header'>Others</h3>
@@ -51,17 +52,21 @@ useEffect(()=>{
                             perPage:size<400?1:size<700?2:size<1024?3:4,
                             gap:'2rem',
                             pagination:false,
-                            arrows:false,
+                            arrows:true,
                             drag:'free'}} >
-           {recipes?.map((image)=><SplideSlide key={image.recipeID}><SlideCard image={image} /></SplideSlide>)}
+           {recipes?.map((image)=><SplideSlide key={image.id}><SlideCard image={image} /></SplideSlide>)}
         </Splide>
         </div>
   </section>
   <section className="about">
       <h3>About</h3>
+      <div>
+      <img src={owner} alt="owner"/>
       <p className='section-para'>
+        <h3>I'm Bongbuin Cyril Mentan a developer</h3>
         We are a young an vibrant community spreading love while feeding the community with the best recipes in the country, We have being doing this for over 3 years and still growing and our customers like our services we welcome you to this site
       </p>
+      </div>
   </section>
   <section className='services'>
       <h3>Services</h3>
