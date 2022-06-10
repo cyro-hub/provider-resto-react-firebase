@@ -37,10 +37,10 @@ useEffect(()=>{
         <div className="section">
           {/* add the popular recipes */}
         <Splide options={ { rewind: true,
-                            perPage:size<400?1:size<700?2:size<1024?3:4,
+                            perPage:size<450?1:size<750?2:size<1024?3:4,
                             gap:'2rem',
                             pagination:false,
-                            arrows:true,
+                            arrows:false,
                             drag:'free'}} >
         {popular?.map((image) =><SplideSlide key={image.id}><SlideCard image={image}/></SplideSlide>)}
         </Splide>
@@ -52,7 +52,7 @@ useEffect(()=>{
                             perPage:size<400?1:size<700?2:size<1024?3:4,
                             gap:'2rem',
                             pagination:false,
-                            arrows:true,
+                            arrows:false,
                             drag:'free'}} >
            {recipes?.map((image)=><SplideSlide key={image.id}><SlideCard image={image} /></SplideSlide>)}
         </Splide>
