@@ -1,0 +1,35 @@
+$primary_color:white;
+$secondary_color:rgba(255, 255, 255, 0.75);
+$tertiary_color:rgba(255, 255, 255, 0.5);
+
+$media-desktop: "only screen and (min-width : 1024px)";
+$media-tablet: "only screen and (max-width : 768px)";
+$media-mobile: "only screen and (max-width : 600px)";
+$media-mobile-sm: "only screen and (min-width : 480px)";
+
+
+.nav-list{
+    margin-left: auto;
+    margin-top: 2rem;
+    position: sticky;
+    top: 2rem;
+    align-items: center;
+    justify-content: space-around;
+    a{
+        text-decoration: none;
+        margin: 0 1rem;
+        color: $primary_color;
+    }
+
+    a:hover{
+        color:$secondary_color;
+        transition-duration: 0.5s ease;
+    }
+}
+
+@media #{$media-mobile}{
+    .nav-list{
+        margin: 2rem auto;
+        // width:100%;
+    }
+}

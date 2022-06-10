@@ -1,0 +1,88 @@
+$bg-primary:rgba(255, 255, 255, 0.4);
+$bg-secondary:rgba(0, 3, 14, 0.5);
+$bg-tertiary:rgb(0, 6, 32);
+$primary_color:white;
+$secondary_color:rgba(255, 255, 255, 0.75);
+$tertiary_color:rgba(255, 255, 255, 0.5);
+
+$media-mobile: "only screen and (max-width : 600px)";
+
+.form{
+    width: 22rem;
+    margin: 0 auto;
+    margin-bottom: 10rem;
+    display: flex;
+    flex-direction: column;
+
+    .input-div{
+        width: 100%;
+        margin: 1rem 0;
+        display: flex;
+
+        .input,textarea,select{
+            width: 100%;
+            padding: 12px;
+            background-color:rgba(0, 6, 32, 0.7);
+            border-radius: 5px;
+            border: none;
+            outline: none;
+            font-weight: bold;
+            font-size: 18px;
+            color: $primary_color;
+            .option{
+                color: black;
+              }
+        }
+    }
+    .submit{
+        border: none;
+        border-radius: 5px;
+        padding: 0.5rem 1rem;
+        color:white;
+        font-weight: bolder;
+        font-size: 18px;
+    }
+    .contact{
+        background-color: $bg-tertiary;
+        margin: 0 auto;
+    }
+    .swap{
+        font-weight: bolder;
+        color: $primary_color;
+        border: none;
+        background-color: transparent;
+        margin-left: auto;
+        font-size: 18px;
+    }
+    .account{
+        background-color: rgb(0, 6, 32);
+    }
+    .submit:hover{
+        background-color:$bg-secondary;
+    }
+    .check{
+        padding: 0.5rem;
+        border-radius: 5px;
+        .add-recipe-label{
+            font-size: 18px;
+            font-weight: bold;
+        }
+        .add-recipe-checkbox{
+            width: 14px;
+            height: 14px;
+            margin-left: 0.5rem;
+            margin-top: 5px;
+        }
+    }
+}
+
+.selected-image{
+    width:80%;
+    height: 180px;
+}
+
+@media #{$media-mobile}{
+    .form{
+        width: 95%;
+    }
+}

@@ -1,0 +1,1 @@
+export const regions = ['Far-North','North','Adamawa','East','Center','Littoral','West','South','Southwest','Northwest']
