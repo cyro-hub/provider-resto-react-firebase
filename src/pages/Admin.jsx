@@ -14,28 +14,31 @@ import CheckOrders from '../admin/CheckOrders'
 import '../css/admin.scss'
 import {Link} from 'react-router-dom';
 import AddLocation from '../admin/AddLocation';
-// import * as user from '../redux/actions/userActions';
-// import * as contact from '../redux/actions/contactActions'
+import * as userActions from '../redux/actions/user'
 
 function Admin() {
 const [show,setShow]=useState('analysis')
 
 useEffect(()=>{
-  // user.getUsers()
-  // contact.getContacts()
+  const timer = setInterval(()=>{
+    userActions.getAllUsers()
+  },5000)
+
+  return ()=>clearInterval(timer)
 },[])
 
-  return (<div className='admin-main'>
-  <section className='admin-nav'>
+
+  return (<div className='admin-main scroll'>
+  <section className='admin-nav scroll'>
     <div>
-        <Link to='/' className='admin-nav-item'><AiOutlineHome size='24'/></Link>
-        <span className='admin-nav-item' onClick={()=>setShow('analysis')}><SiSimpleanalytics size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('addRecipe')}><AiOutlineAppstoreAdd size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('checkUsers')}><FaUsersCog size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('checkOrders')}><BsCardChecklist size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('checkChat')}><BiMessageRoundedDetail size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('checkContact')}><AiOutlineContacts size='24'/></span>
-        <span className='admin-nav-item' onClick={()=>setShow('addlocation')}><MdLocationPin size='24'/></span>
+        <Link to='/' className='admin-nav-item'><AiOutlineHome size='23'/></Link>
+        <span className='admin-nav-item' onClick={()=>setShow('analysis')}><SiSimpleanalytics size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('addRecipe')}><AiOutlineAppstoreAdd size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('checkUsers')}><FaUsersCog size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('checkOrders')}><BsCardChecklist size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('checkChat')}><BiMessageRoundedDetail size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('checkContact')}><AiOutlineContacts size='23'/></span>
+        <span className='admin-nav-item' onClick={()=>setShow('addlocation')}><MdLocationPin size='23'/></span>
     </div>
   </section>
   <section className='admin-body'>

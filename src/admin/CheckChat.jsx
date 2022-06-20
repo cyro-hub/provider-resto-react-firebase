@@ -1,101 +1,124 @@
-import React,{useState,useEffect,useRef} from 'react';
+import React,{useState,useEffect} from 'react';
+import {Link} from 'react-router-dom'
+import * as utils from '../utility/utility'
 import {MdLocationOn,MdSend} from 'react-icons/md'
+import {AiFillHome,AiFillContacts} from 'react-icons/ai'
+import * as chatActions from '../redux/actions/chats'
+import { Receiver,Sender } from '../components/Message';
 import { useSelector } from 'react-redux';
-import './css/checkchat.scss'
-// import * as actions from '../../redux/actions/chatActions'
+import '../pages_css/chats.scss'
+import style from 'styled-components'
 
 function CheckChat() {
-const bottomMessage = useRef();
-
+let email = useSelector(state=>state.chat.email)
 const [message,setMessage]=useState({
-    message:'',
-    location:''
+  email:email||"",
+  role:'admin',
+  message:'',
+  location:null,
+  date:(new Date()).toUTCString()
 });
-const [email,setEmail]=useState('');
 const [search,setSearch]=useState('');
-const users = useSelector(state => state.chat.users)
-const chats = useSelector(state => state.chat.chats);
+const viewChats = useSelector(state=>state.chat.viewChats)
+const users = useSelector(state => state.user.users)
+const chats = useSelector(state=>state.chat.chatsByUser)
 
 const handleSend=async()=>{
-//   actions.sendMessageByAdmin({...message,email:email})
-//   setMessage({
-//     message:'',
-//     location:''
-// })
+  for(const key in message){
+    if(message[key]===''){
+    return 
+    }
+  }
+  chatActions.sendMessage(message).then(()=>{
+    setMessage({...message,
+      message:'',
+      location:null})
+  }).catch(err=>{
+    console.log(err.message)
+  })
 }
     
 const handleLocation=async()=>{
-      navigator.geolocation.getCurrentPosition(function(position) {
-        setMessage({...message,message:position.coords.latitude+' '+position.coords.longitude})
-      });
+  if(navigator.geolocation){
+    return await navigator.geolocation.getCurrentPosition((position=>{
+      setMessage({...message,location:{lat:position.coords.latitude,lon:position.coords.longitude}})
+    }))
+  }
 }
-
-const handleMessage=(e)=>{
-  setMessage({...message,[e.target.name]:e.target.value})
-}
-
-const viewChat=(email)=>{
-  setEmail(email);
-  // actions.getChatsByEmail(email)
-}
-useEffect(()=>{
-  bottomMessage.current?.scrollIntoView({ behavior: "smooth" })
-},[message])
 
 useEffect(()=>{
   const timer = setInterval(()=>{
-    // actions.getChatsByEmail(email)
+    chatActions.getChatsByUser(email)
   },5000)
 
   return ()=>clearInterval(timer)
-},[email])
+})
 
-  return (<section className='main chat admin'>
-      <input type="search" placeholder='search' name="search"   onChange={(e)=>setSearch(e.target.value)} id='search'  autoComplete="off" className='search' value={search}/>
-      {/* name of chats  */}
-    <div className='chat-body'>
-      <div className='chat-names scroll'>
-      {
-        users?.map((user,index)=>
-          <div key={index} onClick={()=>viewChat(user.email)} className='name'>
-            <h1 className=''>{user.userName}</h1>
-          </div>)
-      }
-      </div>
-      {/* name of chats  */}
-      <div className='chats scroll'>
-      {
-        chats?.filter(chat=>chat.message.toLocaleLowerCase().includes(search.toLocaleLowerCase())).map(chat=><React.Fragment key={chat.chatID}>
-          {chat.role==='admin'&&<p className='message message-right'>
-            <span className='user-right'>{chat.name}</span>
-              {chat.message}
-            <span className='date-left'>{chat.date}</span>
-          </p>}
-          {chat.role==='user'&&<p className='message message-left'>
-            <span className='user-left'>{chat.name}</span>
-              {chat.message}
-            <span className='date-right'>{chat.date}</span>
-          </p>}
-          </React.Fragment>)}
-          <p className='message' ref={bottomMessage}></p>
-      </div>
+    return (<section className='chat scroll'>
+{
+  viewChats?<>
+      <div className='chat-head'>
+    <Link to='/'><AiFillHome size='28'/></Link>
+    <input type="search" name='search' className='search-chats' placeholder='Search' autoComplete='off' onChange={(e)=>setSearch(e.target.value)} value={search}/>
+    <Link to=''><AiFillContacts size='28' onClick={()=>{
+      chatActions.viewChats();
+    }}/></Link>
     </div>
-  <div className='message-send'>
-        <MdLocationOn onClick={()=>handleLocation()} className='send-icon' size='20'/>
-        <input type="text" 
-               name='message' 
-               id='message' autoComplete="off"
-               value={message.message}
-               onChange={e=>handleMessage(e)} 
-               className='message-input'
+        <div className='message-body scroll'>
+          {
+            chats.map((message)=>(<React.Fragment key={message.id}>
+            {
+              message.role==='user'?<Receiver messageContent={message}/>:<Sender messageContent={message}/>
+            }
+            </React.Fragment>))
+          }
+          
+        </div>
+        <div className='message-send'>
+        <MdLocationOn onClick={()=>handleLocation()} className='send-icon' size='25'/>
+        <input type="text" name='message' id='message'
+               value={message.message} autoComplete="off"
+               onChange={e=>utils.handleChanges(e,message,setMessage)} 
+               className='message-input' 
+               placeholder='type a message'
                onKeyDown={(e)=>{
-                 if(e.keyCode === 13){
-                   handleSend()
-                 }
-               }}/>
-        <MdSend onClick={()=>handleSend()} className='send-icon' size='20'/>
-      </div>
-</section>)
+                if(e.keyCode === 13){
+                  handleSend()
+                }
+              }}/>
+        <MdSend onClick={()=>handleSend()} className='send-icon' size='25'/>
+      </div></>:<Names users = {users}/>
+}
+    </section>)
 }
 
 export default CheckChat
+
+const Names = ({users})=>{
+  let email = useSelector(state=>state.chat.email)
+  const [search,setSearch]=useState('');
+
+  return(
+  <>
+  <div className='chat-head'>
+    <Link to='/'><AiFillHome size='28'/></Link>
+    <input type="search" name='search' className='search-chats' placeholder='Search' autoComplete='off' onChange={(e)=>setSearch(e.target.value)} value={search}/>
+    <Link to=''>
+    <AiFillContacts size='28' onClick={()=>{
+      chatActions.viewChats();
+    }}/>
+    </Link>
+  </div>
+  <UserNames className='names scroll'>
+    {
+      users.map((user,i)=><div key={user.id} onClick={()=>{
+        chatActions.getChatsByUser(user.details.email)
+      }}>{user.details.email}</div>)
+    }
+  </UserNames></>)
+}
+
+
+const UserNames = style.div`
+margin:0.5rem;
+`

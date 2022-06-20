@@ -1,4 +1,5 @@
 import {useSelector} from 'react-redux';
+import { useEffect } from 'react';
 import '../css/checkout.scss'
 import * as contactActions from '../redux/actions/contact'
 
@@ -8,6 +9,12 @@ function CheckContact() {
   function handleRemoveContactMessage(id){
     contactActions.removeContact(id)
   }
+  useEffect(()=>{
+    const timer = setInterval(()=>{
+      contactActions.getContacts()
+    },5000)
+    return ()=>clearInterval(timer)
+  })
 
   return (<section className='main'>
   <h3>Contact Messages</h3>

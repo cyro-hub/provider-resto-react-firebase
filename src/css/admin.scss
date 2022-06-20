@@ -9,13 +9,13 @@ $bg-tertiary:rgb(0, 6, 32);
 .admin-main{
     display: flex;
     flex-direction: row;
-    width:100%;
-    background-color: $bg-secondary;
+    width:100vw;
     height: 100vh;
+    padding: 0;
 }
 .admin-nav{
     width: 5rem;
-    padding: 4rem 1rem;
+    padding: 4rem 0;
     position: sticky;
     left: 0;
     top: 0;

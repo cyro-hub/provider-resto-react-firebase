@@ -9,6 +9,7 @@ import {useSelector} from 'react-redux'
 import Contact from '../components/Contact';
 import {AiFillLinkedin,AiFillFacebook} from 'react-icons/ai'
 import owner from '../images/owner.png'
+import * as userActions from '../redux/actions/user'
 
 function Home() {
 const [size,setSize]=useState(window.innerWidth);
@@ -18,6 +19,10 @@ const popular = useSelector(state=>state.recipe.popularRecipes);
 const checkSize=()=>{
   setSize(window.innerWidth);
 }
+
+useEffect(()=>{
+  userActions.setNavigateToUser();
+},[])
 
 useEffect(()=>{
   window.addEventListener('resize',checkSize);
@@ -42,7 +47,7 @@ useEffect(()=>{
                             pagination:false,
                             arrows:false,
                             drag:'free'}} >
-        {popular?.map((image) =><SplideSlide key={image.id}><SlideCard image={image}/></SplideSlide>)}
+        {popular?.map((image,i) =><SplideSlide key={i}><SlideCard image={image}/></SplideSlide>)}
         </Splide>
         </div>
         <h3 className='section-header'>Others</h3>
@@ -54,7 +59,7 @@ useEffect(()=>{
                             pagination:false,
                             arrows:false,
                             drag:'free'}} >
-           {recipes?.map((image)=><SplideSlide key={image.id}><SlideCard image={image} /></SplideSlide>)}
+           {recipes?.map((image,i)=><SplideSlide key={i}><SlideCard image={image} /></SplideSlide>)}
         </Splide>
         </div>
   </section>
@@ -63,7 +68,7 @@ useEffect(()=>{
       <div>
       <img src={owner} alt="owner"/>
       <p className='section-para'>
-        <h3>I'm Bongbuin Cyril Mentan a developer</h3>
+        <span>I'm Bongbuin Cyril Mentan a developer</span>
         We are a young an vibrant community spreading love while feeding the community with the best recipes in the country, We have being doing this for over 3 years and still growing and our customers like our services we welcome you to this site
       </p>
       </div>

@@ -49,7 +49,7 @@ useEffect(()=>{
     },4000)
     return ()=>clearTimeout(timer)
 })
-  return (<form onSubmit={(e)=>handleSubmit(e)} className='form'>
+  return (<form onSubmit={(e)=>handleSubmit(e)} className='form scroll'>
       <div className='input-div'>{warning&&<p className='warning'>{warning}</p>}</div>
       {/* <div>{success&&<p className='success'>{success}</p>}</div> */}
       <div className='input-div'>

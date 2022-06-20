@@ -10,7 +10,7 @@ function AddLocation() {
 const [warning,setWarning]=useState('');
 const [showLocation,setShowLocation]=useState(false);
 const [location,setLocation]=useState({
-  region:'',
+  region:regions[0],
   town:''
 })
 const locations = useSelector(state=>state.location.locations);
@@ -33,7 +33,7 @@ const handleSubmit=async(e)=>{
   locationActions.addLocation(location)
   setShowLocation(true);
   setLocation({
-    region:'',
+    region:regions[0],
     town:''
   })
 }
@@ -41,7 +41,7 @@ const handleSubmit=async(e)=>{
 useEffect(()=>{
   const timer = setTimeout(()=>{
     setWarning('')
-    // actions.removeSuccess()
+    locationActions.getLocations()
   },4000)
   return ()=>clearTimeout(timer)
 })
@@ -60,7 +60,6 @@ return (
   <div className='input-div'>
   <select className='input' autoComplete="off" name='region' 
              onChange={(e)=>handleChanges(e)}>
-            <option value="">Your Region</option>
                 {
                     regions?.map((region,i)=><option className='option' key={i} value={region}>{region}</option>)
                 }
@@ -75,14 +74,13 @@ return (
   </div>
   </form>}
   {showLocation&&<>
-  <TiArrowBack onClick={()=>setShowLocation(false)} className='back-btn'/>
   <section className='main'>
   <h3>Locations</h3>
   <div>{success&&<p className='success'>{success}</p>}</div>
   <table>
       <thead>
         <tr>
-          <th>Region</th>
+          <th className='region'>Region</th>
           <th>Town</th>
           <th className='action'>action</th>
         </tr>
@@ -90,7 +88,7 @@ return (
       <tbody className='scroll'>
         {
           locations?.map(location=><tr key={location.id}>
-            <td>{location.region}</td>
+            <td className='region'>{location.region}</td>
             <td>{location.town}</td>
             <td className='action'>
               <button onClick={()=>handleRemoveLocation(location.id)} className='btn_remove'>remove</button>
@@ -98,7 +96,11 @@ return (
           </tr>)
         }
       </tbody>
-    </table></section></>}
+    </table>
+    <div className='input-div'>
+    <button className='swap' onClick={()=>setShowLocation(false)}>Add Location</button>
+    </div>
+    </section></>}
   </>)
 }
 
