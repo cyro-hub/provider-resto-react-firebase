@@ -32,8 +32,8 @@ useEffect(()=>{
       <Route path='/' element={<Home/>}/>
       <Route path='/login' element={<Account/>}/>
       <Route path='/admin' element={<Admin/>}/>
-        <Route path='chat' element={<Chats/>}/>
       <Route element={<ProtectedRoute/>}>
+        <Route path='chat' element={<Chats/>}/>
       </Route>
     </Routes>
   </Router>);
